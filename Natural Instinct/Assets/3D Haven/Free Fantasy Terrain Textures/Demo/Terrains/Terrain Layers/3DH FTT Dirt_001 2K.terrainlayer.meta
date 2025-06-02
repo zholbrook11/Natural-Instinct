@@ -1,13 +1,7 @@
 fileFormatVersion: 2
-guid: 6d443e1e2285fb84c8b69efaff7876a1
+guid: 6df6bb9f9e1da034bb9073268c0e65ae
 NativeFormatImporter:
   externalObjects: {}
-<<<<<<< Updated upstream
-  mainObjectFileID: 0
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
-=======
   mainObjectFileID: 8574412962073106934
   userData: 
   assetBundleName: 
@@ -18,6 +12,5 @@ AssetOrigin:
   packageName: FREE Fantasy Terrain Textures
   packageVersion: 1.0.0
   assetPath: Assets/3D Haven/Free Fantasy Terrain Textures/Demo/Terrains/Terrain
-    Layers/3DH FTT Rocks_001 2K.terrainlayer
+    Layers/3DH FTT Dirt_001 2K.terrainlayer
   uploadId: 529052
->>>>>>> Stashed changes
