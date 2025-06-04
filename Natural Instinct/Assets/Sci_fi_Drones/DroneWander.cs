@@ -5,26 +5,51 @@ public class DroneWander : MonoBehaviour
     public float speed = 1.0f;
     public float directionChangeInterval = 3.0f;
     public float fixedHeight = 3.0f;
+    public float turnSpeed = 2.0f;
+    public float boundaryRadius = 10.0f;
+    public float obstacleAvoidanceDistance = 1.0f;
 
     private Vector3 movementDirection;
     private float timeToChangeDirection;
+    private Vector3 startPosition;
 
     void Start()
     {
+        startPosition = transform.position;
         ChooseNewDirection();
     }
 
     void Update()
     {
-        // Always stay at the fixed height
         Vector3 position = transform.position;
+
+        // Keep drone at fixed height
         position.y = fixedHeight;
         transform.position = position;
 
-        // Move in current direction
-        transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
+        // Obstacle avoidance
+        if (Physics.Raycast(transform.position, movementDirection, obstacleAvoidanceDistance))
+        {
+            ChooseNewDirection();
+        }
 
-        // Countdown to change direction
+        // Boundary constraint
+        if (Vector3.Distance(startPosition, transform.position) > boundaryRadius)
+        {
+            movementDirection = (startPosition - transform.position).normalized;
+        }
+
+        // Smooth rotation towards movement direction
+        if (movementDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+        }
+
+        // Move forward
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+
+        // Change direction after interval
         timeToChangeDirection -= Time.deltaTime;
         if (timeToChangeDirection <= 0)
         {
@@ -34,8 +59,8 @@ public class DroneWander : MonoBehaviour
 
     void ChooseNewDirection()
     {
-        // Random direction on X-Z plane
-        float angle = Random.Range(0f, 360f);
+        // Pick a new random direction in the X-Z plane
+        float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
         movementDirection = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)).normalized;
         timeToChangeDirection = directionChangeInterval;
     }
