@@ -55,8 +55,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   features:
   - {fileID: 2685427449983788180}
-  - {fileID: -7452116569142172002}
-  - {fileID: -6666051548976295732}
   - {fileID: -1998780132107361025}
   - {fileID: 2062763770746604018}
   - {fileID: 8785852067250250932}
@@ -64,6 +62,7 @@ MonoBehaviour:
   - {fileID: -3321461934539565928}
   - {fileID: 6637003754721838898}
   - {fileID: 2371959846262782409}
+  - {fileID: -7452116569142172002}
   - {fileID: -1486050938210172043}
   - {fileID: -4604282540001915749}
   - {fileID: 8095597419536894107}
@@ -84,6 +83,7 @@ MonoBehaviour:
   - {fileID: 8859277468954811816}
   - {fileID: -7257397288256084248}
   - {fileID: -8266846937208497135}
+  - {fileID: -6666051548976295732}
   m_renderMode: 1
   m_autoColorSubmissionMode: 1
   m_colorSubmissionModes:
@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c5b5af5107e35a43818d5411328bfc3, type: 3}
   m_Name: DPadInteraction Standalone
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: D-Pad Binding
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.dpadinteraction
@@ -380,7 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3aced3429e5911458f4da2dac9d0f29, type: 3}
   m_Name: MetaHandTrackingAim Standalone
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Meta Hand Tracking Aim
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.metahandtrackingaim
@@ -1019,7 +1019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e314dfef9af0904e80129bcc0a79361, type: 3}
   m_Name: HandTracking Standalone
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Hand Tracking Subsystem
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.handtracking
@@ -1247,8 +1247,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   features:
   - {fileID: -349705888675354985}
-  - {fileID: -4427134284273768189}
-  - {fileID: 3980558308994310916}
   - {fileID: -2790276018570844446}
   - {fileID: -7132111345414289433}
   - {fileID: -5062466950695519064}
@@ -1258,6 +1256,7 @@ MonoBehaviour:
   - {fileID: 8689156263835870102}
   - {fileID: 2401896219252611337}
   - {fileID: 6171710034582766296}
+  - {fileID: -4427134284273768189}
   - {fileID: -1659457316783140511}
   - {fileID: -4092114917265299197}
   - {fileID: -665158284475946871}
@@ -1278,6 +1277,7 @@ MonoBehaviour:
   - {fileID: 4032620779377997944}
   - {fileID: -4686885380168852731}
   - {fileID: 8087995805529348142}
+  - {fileID: 3980558308994310916}
   m_renderMode: 1
   m_autoColorSubmissionMode: 1
   m_colorSubmissionModes:
