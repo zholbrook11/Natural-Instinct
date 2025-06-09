@@ -157,7 +157,7 @@ MonoBehaviour:
   blendMode: 0
   opacity: 100
   passIndex: 0
-  min: 0
+  min: 37.85
   minFalloff: 7.07
   max: 183.6
   maxFalloff: 70.4
@@ -204,27 +204,6 @@ MonoBehaviour:
   minFalloff: 31.74
   max: 230.9
   maxFalloff: 201
---- !u!114 &224171067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1d046e3917e4d8580903c69758b6558, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enabled: 1
-  label: Height
-  blendMode: 0
-  opacity: 100
-  passIndex: 0
-  min: 0
-  minFalloff: 1
-  max: 2000
-  maxFalloff: 1
 --- !u!114 &270751677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +356,7 @@ MonoBehaviour:
   splatmapResolution: 256
   colorMapResolution: 256
   layerSettings:
-  - enabled: 0
+  - enabled: 1
     layer: {fileID: 8574412962073106934, guid: 0767c40ecd354594f95bc8204f5ecb3f, type: 2}
     modifierStack:
     - {fileID: 1458585407}
@@ -391,13 +370,13 @@ MonoBehaviour:
     - {fileID: 59049247}
     - {fileID: 1263329034}
     - {fileID: 1705429192}
-  - enabled: 0
+  - enabled: 1
     layer: {fileID: 8574412962073106934, guid: 881e3659d09e3e144835d761c2235488, type: 2}
     modifierStack:
     - {fileID: 329955321}
     - {fileID: 1820334681}
     - {fileID: 215300139}
-  - enabled: 0
+  - enabled: 1
     layer: {fileID: 8574412962073106934, guid: 9a73362259799e748b5f32ee4d5b9f54, type: 2}
     modifierStack:
     - {fileID: 612637419}
@@ -415,11 +394,12 @@ MonoBehaviour:
     - {fileID: 1460074094}
     - {fileID: 1825167437}
   - enabled: 1
-    layer: {fileID: 8574412962073106934, guid: d9efb5997a314404d9e50db124e66a69, type: 2}
-    modifierStack:
-    - {fileID: 224171067}
-  - enabled: 1
     layer: {fileID: 8574412962073106934, guid: 69debc15b685aef4aa7bb2783ddd8a2b, type: 2}
+    modifierStack:
+    - {fileID: 1003311421}
+    - {fileID: 1263714598}
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: d9efb5997a314404d9e50db124e66a69, type: 2}
     modifierStack: []
   - enabled: 1
     layer: {fileID: 8574412962073106934, guid: 0cb80391d22817b42a6231c64293ae96, type: 2}
@@ -471,9 +451,9 @@ MonoBehaviour:
   opacity: 100
   passIndex: 4
   noiseType: 0
-  noiseScale: 50
-  noiseOffset: {x: 0, y: 0}
-  levels: {x: 0.026399896, y: 1}
+  noiseScale: 10000
+  noiseOffset: {x: 16.24, y: 0}
+  levels: {x: 0.21280003, y: 1}
 --- !u!114 &746574481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,7 +471,7 @@ MonoBehaviour:
   blendMode: 0
   opacity: 100
   passIndex: 1
-  minMax: {x: 0, y: 20.482742}
+  minMax: {x: 0, y: 30.85075}
   minFalloff: 10
   maxFalloff: 10
 --- !u!1 &759012669
@@ -622,6 +602,26 @@ MonoBehaviour:
   passIndex: 1
   minMax: {x: 0, y: 0}
   minFalloff: 10
+  maxFalloff: 18.1
+--- !u!114 &1003311421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2562637f396e4c10acd3fa9926b53a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enabled: 0
+  label: Slope
+  blendMode: 0
+  opacity: 100
+  passIndex: 1
+  minMax: {x: 0, y: 90}
+  minFalloff: 10.5
   maxFalloff: 10
 --- !u!114 &1022554952
 MonoBehaviour:
@@ -643,7 +643,7 @@ MonoBehaviour:
   noiseType: 0
   noiseScale: 50
   noiseOffset: {x: 0, y: 0}
-  levels: {x: 0.40344805, y: 1}
+  levels: {x: 0.16664775, y: 1}
 --- !u!114 &1263329034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,6 +664,27 @@ MonoBehaviour:
   minMax: {x: 0, y: 11.087985}
   minFalloff: 7.7
   maxFalloff: 0.001
+--- !u!114 &1263714598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e07d49e90874d70b9937cb753327a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enabled: 1
+  label: Noise
+  blendMode: 0
+  opacity: 100
+  passIndex: 4
+  noiseType: 0
+  noiseScale: 500
+  noiseOffset: {x: 0, y: 0}
+  levels: {x: 0.025599975, y: 0.8207999}
 --- !u!114 &1292939838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,7 +726,7 @@ MonoBehaviour:
   noiseType: 0
   noiseScale: 57.25
   noiseOffset: {x: 0, y: 0}
-  levels: {x: 0.21434481, y: 1}
+  levels: {x: 0.25274485, y: 1}
 --- !u!114 &1460074094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1047,13 +1068,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876758709}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.1120514, y: 0.5047096, z: 0.066267006, w: 0.85341746}
-  m_LocalPosition: {x: 246.13, y: 37.75, z: 188.25}
+  m_LocalRotation: {x: -0.19235353, y: 0.54256105, z: 0.12925622, w: 0.8074159}
+  m_LocalPosition: {x: 245.8, y: 37.9, z: 188.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -14.96, y: 61.2, z: 0}
+  m_LocalEulerAnglesHint: {x: -26.8, y: 67.8, z: 0}
 --- !u!54 &1876758715
 Rigidbody:
   m_ObjectHideFlags: 0
