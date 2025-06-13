@@ -1,15 +1,90 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GrapplingHook : MonoBehaviour
 {
-    public Transform playerBody;               // The object to pull (usually the rig or camera root)
+    public Transform playerBody;
     public LineRenderer lineRenderer;
     public LayerMask grappleLayer;
     public float maxDistance = 30f;
+    public float swingForce = 20f;
+    public Material highlightMaterial;
 
     private Vector3 grapplePoint;
     private SpringJoint joint;
     private bool isGrappling = false;
+
+    private Renderer lastHitRenderer;
+    private Material originalMaterial;
+
+    void Update()
+    {
+        HighlightGrappleTarget();
+
+        if (isGrappling && lineRenderer != null)
+        {
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, grapplePoint);
+
+            ApplySwingForce(); // 🔥 New force logic
+        }
+    }
+
+    void ApplySwingForce()
+    {
+        if (playerBody == null || joint == null) return;
+
+        Rigidbody rb = playerBody.GetComponent<Rigidbody>();
+
+        // Use the direction the player/cube is facing for better control
+        Vector3 forward = transform.forward;
+        Vector3 right = transform.right;
+
+        float horizontalInput = Input.GetAxis("Horizontal"); // A/D
+        float verticalInput = Input.GetAxis("Vertical");     // W/S
+
+        Vector3 moveDirection = (forward * verticalInput + right * horizontalInput).normalized;
+
+        if (moveDirection.magnitude > 0.1f)
+        {
+            rb.AddForce(moveDirection * swingForce, ForceMode.Acceleration);
+
+            // Optional: visualize applied force direction
+            Debug.DrawRay(playerBody.position, moveDirection * 3f, Color.green, 0.1f);
+        }
+    }
+
+
+    void HighlightGrappleTarget()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, maxDistance, grappleLayer))
+        {
+            Renderer renderer = hit.collider.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                if (renderer != lastHitRenderer)
+                {
+                    ClearLastHighlight();
+
+                    lastHitRenderer = renderer;
+                    originalMaterial = renderer.material;
+                    renderer.material = highlightMaterial;
+                }
+            }
+        }
+        else
+        {
+            ClearLastHighlight();
+        }
+    }
+
+    void ClearLastHighlight()
+    {
+        if (lastHitRenderer != null)
+        {
+            lastHitRenderer.material = originalMaterial;
+            lastHitRenderer = null;
+        }
+    }
 
     public void StartGrapple()
     {
@@ -41,6 +116,12 @@ public class GrapplingHook : MonoBehaviour
             }
 
             isGrappling = true;
+
+            // Launch the player slightly toward the grapple point
+            Rigidbody rb = playerBody.GetComponent<Rigidbody>();
+            Vector3 directionToPoint = (grapplePoint - playerBody.position).normalized;
+            rb.linearVelocity = directionToPoint * 10f; // Tune this value as needed
+
         }
     }
 
