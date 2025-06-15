@@ -918,6 +918,7 @@
     "m_OutputNode": {
         "m_Id": ""
     },
+    "m_SubDatas": [],
     "m_ActiveTargets": [
         {
             "m_Id": "1fb0ca3e95254d0780c5a9685f884172"
@@ -1442,6 +1443,9 @@
     "m_AlphaClip": false,
     "m_CastShadows": true,
     "m_ReceiveShadows": true,
+    "m_DisableTint": false,
+    "m_AdditionalMotionVectorMode": 0,
+    "m_AlembicMotionVectors": false,
     "m_SupportsLODCrossFade": false,
     "m_CustomEditorGUI": "",
     "m_SupportVFX": false
@@ -1534,8 +1538,8 @@
     "m_ObjectId": "230ce3205ce0436e94a7fa2a4d724cb6",
     "m_Title": "Foam Mask",
     "m_Position": {
-        "x": -178.9999542236328,
-        "y": 312.9999084472656
+        "x": -179.2000732421875,
+        "y": 312.0
     }
 }
 
@@ -1667,8 +1671,8 @@
     "m_ObjectId": "29accf37e34e439d9a6403b9c959532f",
     "m_Title": "Waves",
     "m_Position": {
-        "x": 290.00006103515627,
-        "y": -1217.9998779296875
+        "x": 289.5999755859375,
+        "y": -1219.2000732421875
     }
 }
 
@@ -1856,8 +1860,8 @@
     "m_ObjectId": "2fe62a73d09444b1a1e75c20322d5795",
     "m_Title": "Water Depth Color",
     "m_Position": {
-        "x": 248.74903869628907,
-        "y": -24.25094223022461
+        "x": 248.7999267578125,
+        "y": -24.800048828125
     }
 }
 
@@ -2879,14 +2883,14 @@
     "m_CustomSlotLabel": "",
     "m_DismissedVersion": 0,
     "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
+    "overrideHLSLDeclaration": true,
+    "hlslDeclarationOverride": 2,
     "m_Hidden": false,
     "m_Value": 0.6600000262260437,
     "m_FloatType": 1,
     "m_RangeValues": {
         "x": 0.10000000149011612,
-        "y": 2.0
+        "y": 50.0
     }
 }
 
@@ -3289,7 +3293,7 @@
     "m_Title": "Water Grab Texture Color",
     "m_Position": {
         "x": 640.0,
-        "y": -319.74896240234377
+        "y": -320.800048828125
     }
 }
 
@@ -4053,8 +4057,8 @@
     "m_ObjectId": "8765947420834b0c8c1cf3b9dc7b621b",
     "m_Title": "Refracted Screen Position UVs",
     "m_Position": {
-        "x": -869.0,
-        "y": -329.99993896484377
+        "x": -869.6000366210938,
+        "y": -331.199951171875
     }
 }
 
@@ -4076,7 +4080,7 @@
     "m_DefaultValue": {
         "x": 0.0,
         "y": 0.0,
-        "z": 0.0
+        "z": 1.0
     },
     "m_Labels": []
 }
@@ -5509,8 +5513,8 @@
     "m_ObjectId": "dffabb4bec334841ade6749ce58d4f3d",
     "m_Title": "Lerp Grab Texture vs Depth+Foam",
     "m_Position": {
-        "x": 1669.1302490234375,
-        "y": -209.08702087402345
+        "x": 1524.7998046875,
+        "y": -209.5999755859375
     }
 }
 
@@ -5599,8 +5603,8 @@
     "m_ObjectId": "ec917d38f9e7407e95ef1df7e8396388",
     "m_Title": "Lerp Depth vs Foam",
     "m_Position": {
-        "x": 1047.9998779296875,
-        "y": 86.00006866455078
+        "x": 1047.999755859375,
+        "y": 84.800048828125
     }
 }
 
