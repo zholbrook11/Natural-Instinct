@@ -29,7 +29,7 @@ public class GrapplingHook : MonoBehaviour
         }
     }
 
-    void ApplySwingForce()
+    /*void ApplySwingForce()
     {
         if (playerBody == null || joint == null) return;
 
@@ -51,7 +51,24 @@ public class GrapplingHook : MonoBehaviour
             // Optional: visualize applied force direction
             Debug.DrawRay(playerBody.position, moveDirection * 3f, Color.green, 0.1f);
         }
-    }
+    }*/
+    void ApplySwingForce()
+{
+    if (playerBody == null || joint == null) return;
+
+    Rigidbody rb = playerBody.GetComponent<Rigidbody>();
+    if (rb == null) return;
+
+    Vector3 toGrapple = grapplePoint - playerBody.position;
+    Vector3 swingDirection = Vector3.Cross(toGrapple.normalized, Vector3.up).normalized;
+
+    float horizontalInput = Input.GetAxis("Horizontal");
+    float verticalInput = Input.GetAxis("Vertical");
+
+    Vector3 inputForce = swingDirection * horizontalInput + transform.forward * verticalInput;
+    rb.AddForce(inputForce * swingForce, ForceMode.Acceleration);
+}
+
 
 
     void HighlightGrappleTarget()
@@ -125,6 +142,7 @@ public class GrapplingHook : MonoBehaviour
             Vector3 directionToPoint = (grapplePoint - playerBody.position).normalized;
             rb.linearVelocity = directionToPoint * 10f; // Tune this value as needed
 
+            if (rb != null) rb.useGravity = false;
         }
     }
 
@@ -141,6 +159,10 @@ public class GrapplingHook : MonoBehaviour
         }
 
         isGrappling = false;
+
+        // Re-enable gravity
+        Rigidbody rb = playerBody.GetComponent<Rigidbody>();
+        if (rb != null) rb.useGravity = true;
     }
 
     private void LateUpdate()
