@@ -96,6 +96,10 @@ public class GrapplingHook : MonoBehaviour
 
             Debug.DrawLine(transform.position, grapplePoint, Color.red, 2f);
 
+            Rigidbody rb = playerBody.GetComponent<Rigidbody>();
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+
+            
             joint = playerBody.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
             joint.connectedAnchor = grapplePoint;
@@ -118,7 +122,6 @@ public class GrapplingHook : MonoBehaviour
             isGrappling = true;
 
             // Launch the player slightly toward the grapple point
-            Rigidbody rb = playerBody.GetComponent<Rigidbody>();
             Vector3 directionToPoint = (grapplePoint - playerBody.position).normalized;
             rb.linearVelocity = directionToPoint * 10f; // Tune this value as needed
 
