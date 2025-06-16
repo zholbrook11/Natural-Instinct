@@ -2,32 +2,22 @@ using UnityEngine;
 
 public class DroneHealth : MonoBehaviour
 {
-    public GameObject explosionEffectPrefab;
+    [SerializeField] private int maxHP = 3;
+    [SerializeField] private GameObject explosionPrefab;
 
-    public void TakeDamage(int amount)
+    int hp;
+
+    void Awake() => hp = maxHP;
+
+    public void TakeDamage(int dmg)
     {
-        Die();
+        hp -= dmg;
+        if (hp <= 0) Die();
     }
 
     void Die()
-{
-    if (explosionEffectPrefab)
     {
-        GameObject explosion = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
-        ParticleSystem ps = explosion.GetComponent<ParticleSystem>();
-
-        if (ps != null)
-        {
-            ps.Play();
-            Destroy(explosion, ps.main.duration);
-        }
-        else
-        {
-            Destroy(explosion, 2f); // fallback in case no ParticleSystem is attached
-        }
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
-
-    Destroy(gameObject); // Destroy the drone itself
-}
-
 }
