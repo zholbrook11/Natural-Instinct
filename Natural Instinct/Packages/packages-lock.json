@@ -10,8 +10,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
-      "version": "1.8.21",
-      "depth": 2,
+      "version": "1.8.23",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.mathematics": "1.2.1",
@@ -151,6 +151,16 @@
         "com.unity.render-pipelines.core": "17.0.4",
         "com.unity.searcher": "4.9.3"
       }
+    },
+    "com.unity.terrain-tools": {
+      "version": "5.2.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.terrain": "1.0.0",
+        "com.unity.modules.terrainphysics": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
       "version": "1.5.1",
