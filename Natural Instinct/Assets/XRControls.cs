@@ -92,9 +92,18 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
             ""id"": ""d2adb902-cce1-4d9b-854d-43ed78e938ff"",
             ""actions"": [
                 {
-                    ""name"": ""Grapple"",
+                    ""name"": ""RGrapple"",
                     ""type"": ""Button"",
                     ""id"": ""eb976e69-67d5-4014-a6ba-c2fc4f73b7e1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LGrapple"",
+                    ""type"": ""Button"",
+                    ""id"": ""b2e63464-7027-4eb2-8376-46cebe2dc4ed"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -109,7 +118,18 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Grapple"",
+                    ""action"": ""RGrapple"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3376ff71-2c5e-453f-9d03-c460200f77e6"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/{TriggerButton}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LGrapple"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -120,7 +140,8 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
 }");
         // XRActions
         m_XRActions = asset.FindActionMap("XRActions", throwIfNotFound: true);
-        m_XRActions_Grapple = m_XRActions.FindAction("Grapple", throwIfNotFound: true);
+        m_XRActions_RGrapple = m_XRActions.FindAction("RGrapple", throwIfNotFound: true);
+        m_XRActions_LGrapple = m_XRActions.FindAction("LGrapple", throwIfNotFound: true);
     }
 
     ~@XRControls()
@@ -201,7 +222,8 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
     // XRActions
     private readonly InputActionMap m_XRActions;
     private List<IXRActionsActions> m_XRActionsActionsCallbackInterfaces = new List<IXRActionsActions>();
-    private readonly InputAction m_XRActions_Grapple;
+    private readonly InputAction m_XRActions_RGrapple;
+    private readonly InputAction m_XRActions_LGrapple;
     /// <summary>
     /// Provides access to input actions defined in input action map "XRActions".
     /// </summary>
@@ -214,9 +236,13 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
         /// </summary>
         public XRActionsActions(@XRControls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "XRActions/Grapple".
+        /// Provides access to the underlying input action "XRActions/RGrapple".
         /// </summary>
-        public InputAction @Grapple => m_Wrapper.m_XRActions_Grapple;
+        public InputAction @RGrapple => m_Wrapper.m_XRActions_RGrapple;
+        /// <summary>
+        /// Provides access to the underlying input action "XRActions/LGrapple".
+        /// </summary>
+        public InputAction @LGrapple => m_Wrapper.m_XRActions_LGrapple;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -243,9 +269,12 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_XRActionsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_XRActionsActionsCallbackInterfaces.Add(instance);
-            @Grapple.started += instance.OnGrapple;
-            @Grapple.performed += instance.OnGrapple;
-            @Grapple.canceled += instance.OnGrapple;
+            @RGrapple.started += instance.OnRGrapple;
+            @RGrapple.performed += instance.OnRGrapple;
+            @RGrapple.canceled += instance.OnRGrapple;
+            @LGrapple.started += instance.OnLGrapple;
+            @LGrapple.performed += instance.OnLGrapple;
+            @LGrapple.canceled += instance.OnLGrapple;
         }
 
         /// <summary>
@@ -257,9 +286,12 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
         /// <seealso cref="XRActionsActions" />
         private void UnregisterCallbacks(IXRActionsActions instance)
         {
-            @Grapple.started -= instance.OnGrapple;
-            @Grapple.performed -= instance.OnGrapple;
-            @Grapple.canceled -= instance.OnGrapple;
+            @RGrapple.started -= instance.OnRGrapple;
+            @RGrapple.performed -= instance.OnRGrapple;
+            @RGrapple.canceled -= instance.OnRGrapple;
+            @LGrapple.started -= instance.OnLGrapple;
+            @LGrapple.performed -= instance.OnLGrapple;
+            @LGrapple.canceled -= instance.OnLGrapple;
         }
 
         /// <summary>
@@ -301,11 +333,18 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
     public interface IXRActionsActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Grapple" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "RGrapple" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnGrapple(InputAction.CallbackContext context);
+        void OnRGrapple(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LGrapple" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLGrapple(InputAction.CallbackContext context);
     }
 }
