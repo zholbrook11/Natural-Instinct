@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d48062b96a99af24daf9312749f5de50
+guid: c52ad77efecd38146bfb167ad0f38daf
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 8574412962073106934
@@ -12,4 +12,4 @@ AssetOrigin:
   packageName: Procedural Terrain Painter
   packageVersion: 1.0.5
   assetPath: Assets/ProceduralTerrainPainter/_Demo/Layers/Snow.terrainlayer
-  uploadId: 712355
+  uploadId: 762730

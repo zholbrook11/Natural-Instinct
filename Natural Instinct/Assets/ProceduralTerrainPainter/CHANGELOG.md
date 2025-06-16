@@ -5,9 +5,12 @@ Added:
 - C# API: RepaintAll and RepaintTerrain functions have an optional bool parameter, to sync the GPU splatmap data to the CPU/disk.
 
 Changed:
+- Demo scene is now set up for URP by default
 - Better handling of asynchronous saving of terrain painting data.
 - 
 Fixed:
+- Error in Unity 6+ regarding missing icon when selecting a Terrain Painter
+- Warnings regarding "'R8_SRGB' is not supported".
 - Auto repaint functionality also causing Terrain Painter components to repaint, even if they aren't targeting the terrain being edited.
 
 1.0.4

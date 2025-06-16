@@ -456,7 +456,7 @@ namespace sc.terrain.proceduralpainter
             {
                 EditorGUI.BeginDisabledGroup(m_LayerList.index < 0 || m_LayerList.count == 0);
                 {
-                    heatmapEnabled = GUILayout.Toggle(heatmapEnabled, new GUIContent("  Heatmap", EditorGUIUtility.IconContent(iconPrefix + "winbtn_mac_close").image), EditorStyles.toolbarButton, GUILayout.MaxWidth(110f));
+                    heatmapEnabled = GUILayout.Toggle(heatmapEnabled, new GUIContent("  Heatmap", EditorGUIUtility.IconContent(iconPrefix + "P4_Local").image), EditorStyles.toolbarButton, GUILayout.MaxWidth(110f));
                     if (heatmapEnabled)
                     {
                         EditorGUILayout.LabelField("Countour", GUILayout.MaxWidth(60f));
