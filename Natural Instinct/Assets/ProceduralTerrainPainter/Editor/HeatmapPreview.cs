@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 #if UNITY_2021_2_OR_NEWER
 using UnityEngine.TerrainTools;
 #else
@@ -31,7 +30,7 @@ namespace sc.terrain.proceduralpainter
 
         private static RenderTexture CreateHeatmap(Terrain terrain, int layerIndex)
         {
-            RenderTexture rt = new RenderTexture(terrain.terrainData.alphamapResolution, terrain.terrainData.alphamapResolution, 0, GraphicsFormat.R8_UNorm);
+            RenderTexture rt = new RenderTexture(terrain.terrainData.alphamapResolution, terrain.terrainData.alphamapResolution, 0, RenderTextureFormat.R8);
 
             var splatIndex = Utilities.GetSplatmapIndex(layerIndex);
             var channelIndex = Utilities.GetChannelIndex(layerIndex);
