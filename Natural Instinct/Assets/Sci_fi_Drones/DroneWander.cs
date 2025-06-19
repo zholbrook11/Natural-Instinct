@@ -24,8 +24,7 @@ public class DroneWander : MonoBehaviour
         Vector3 position = transform.position;
 
         // Keep drone at fixed height
-
-        //position.y = fixedHeight;
+        position.y = fixedHeight;
         transform.position = position;
 
         // Obstacle avoidance
