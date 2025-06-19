@@ -1,25 +1,57 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR;
 
+[RequireComponent(typeof(LineRenderer))]
 public class GrapplingHookHand : MonoBehaviour
 {
+    [Header("Grapple Setup")]
     public Transform playerBody;
-    public LineRenderer lineRenderer;
     public LayerMask grappleLayer;
     public float maxDistance = 30f;
-    public float pullSpeed = 10f;
-    [SerializeField] public InputActionReference grappleAction;
+    public float launchForce = 15f;
+    public float gravityRestoreTime = 1.5f;
+    public InputActionReference grappleAction;
+
+    [Header("Aim Assist")]
+    public float aimAssistAngle = 10f;
+    public float aimAssistRadius = 2f;
+    public GameObject aimConeVisual;
+
+    [Header("Highlighting")]
     public Material highlightMaterial;
 
+    [Header("Audio")] 
+    public AudioSource audioSource;
+    public AudioClip fireSound;
+    public AudioClip attachSound;
+    public AudioClip releaseSound;
 
+    [Header("Haptics")]
+    public XRBaseController controller;
+    public float hapticAmplitude = 0.4f;
+    public float hapticDuration = 0.1f;
+
+    private Vector3 grapplePoint;
+    private LineRenderer lineRenderer;
+    private CharacterController characterController;
+    private Vector3 fallingVelocity;
+    private float gravityTimer = 0f;
+    private bool isGrappling = false;
     private Renderer lastHitRenderer;
     private Material originalMaterial;
-    private Vector3 grapplePoint;
-    private bool isGrappling = false;
+
+    private void Awake()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+        characterController = playerBody.GetComponent<CharacterController>();
+        lineRenderer.positionCount = 0;
+    }
 
     private void OnEnable()
     {
-        if (grappleAction.action != null)
+        if (grappleAction?.action != null)
         {
             grappleAction.action.Enable();
             grappleAction.action.performed += ctx => StartGrapple();
@@ -29,75 +61,65 @@ public class GrapplingHookHand : MonoBehaviour
 
     private void OnDisable()
     {
-        if (grappleAction.action != null)
+        if (grappleAction?.action != null)
         {
-            grappleAction.action.Disable();
             grappleAction.action.performed -= ctx => StartGrapple();
             grappleAction.action.canceled -= ctx => StopGrapple();
+            grappleAction.action.Disable();
         }
     }
 
-    void Update()
-{
-    HighlightGrappleTarget();
-
-    if (isGrappling)
+    private void Update()
     {
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, grapplePoint);
+        AimAssistHighlight();
 
-        Vector3 toGrapple = grapplePoint - playerBody.position;
-        Vector3 swingDir = Vector3.Cross(toGrapple.normalized, Vector3.up).normalized;
-
-        // Apply movement (optional: based on input)
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        Vector3 inputMovement = (swingDir * horizontalInput + transform.forward * verticalInput) * pullSpeed * Time.deltaTime;
-
-        // Pull towards grapple point
-        Vector3 pull = toGrapple.normalized * (pullSpeed * 0.5f * Time.deltaTime);
-
-        playerBody.GetComponent<CharacterController>().Move(inputMovement + pull);
-    }
-}
-
-
-    void StartGrapple()
-    {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, maxDistance, grappleLayer))
+        if (isGrappling)
         {
-            grapplePoint = hit.point;
-            lineRenderer.positionCount = 2;
-            isGrappling = true;
+            Vector3 toGrapple = (grapplePoint - playerBody.position).normalized;
+            characterController.Move(toGrapple * launchForce * Time.deltaTime);
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, grapplePoint);
         }
-    }
-
-    void StopGrapple()
-    {
-        isGrappling = false;
-        lineRenderer.positionCount = 0;
-    }
-    void HighlightGrappleTarget()
-{
-    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, maxDistance, grappleLayer))
-    {
-        Renderer renderer = hit.collider.GetComponent<Renderer>();
-        if (renderer != null && renderer != lastHitRenderer)
+        else if (!characterController.isGrounded)
         {
-            ClearLastHighlight();
-
-            lastHitRenderer = renderer;
-            originalMaterial = renderer.material;
-            renderer.material = highlightMaterial;
+            gravityTimer += Time.deltaTime;
+            float gravityMultiplier = Mathf.Clamp01(gravityTimer / gravityRestoreTime);
+            fallingVelocity += Physics.gravity * gravityMultiplier * Time.deltaTime;
+            characterController.Move(fallingVelocity * Time.deltaTime);
+        }
+        else
+        {
+            gravityTimer = 0f;
+            fallingVelocity = Vector3.zero;
         }
     }
-    else
-    {
-        ClearLastHighlight();
-    }
-}
 
-    void ClearLastHighlight()
+    private void AimAssistHighlight()
+    {
+        ClearHighlight();
+
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, aimAssistRadius, transform.forward, maxDistance, grappleLayer);
+
+        foreach (RaycastHit hit in hits)
+        {
+            Vector3 toTarget = hit.point - transform.position;
+            if (Vector3.Angle(transform.forward, toTarget) <= aimAssistAngle)
+            {
+                grapplePoint = hit.point;
+
+                Renderer renderer = hit.collider.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    lastHitRenderer = renderer;
+                    originalMaterial = renderer.sharedMaterial;
+                    renderer.material = highlightMaterial;
+                }
+                return;
+            }
+        }
+    }
+
+    private void ClearHighlight()
     {
         if (lastHitRenderer != null)
         {
@@ -106,4 +128,29 @@ public class GrapplingHookHand : MonoBehaviour
         }
     }
 
+    public void StartGrapple()
+    {
+        if (grapplePoint == Vector3.zero) return;
+
+        isGrappling = true;
+        lineRenderer.positionCount = 2;
+        lineRenderer.SetPosition(0, transform.position);
+        lineRenderer.SetPosition(1, grapplePoint);
+
+        if (audioSource && fireSound) audioSource.PlayOneShot(fireSound);
+        if (audioSource && attachSound) audioSource.PlayOneShot(attachSound);
+        if (controller != null) controller.SendHapticImpulse(hapticAmplitude, hapticDuration);
+
+        // Reset gravity fall
+        gravityTimer = 0f;
+        fallingVelocity = Vector3.zero;
+    }
+
+    public void StopGrapple()
+    {
+        isGrappling = false;
+        lineRenderer.positionCount = 0;
+        if (audioSource && releaseSound) audioSource.PlayOneShot(releaseSound);
+        if (controller != null) controller.SendHapticImpulse(hapticAmplitude * 0.5f, hapticDuration * 0.5f);
+    }
 }
