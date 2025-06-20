@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.XR;
 
 [RequireComponent(typeof(LineRenderer))]
 public class GrapplingHookHand : MonoBehaviour
@@ -13,6 +12,7 @@ public class GrapplingHookHand : MonoBehaviour
     public float launchForce = 15f;
     public float gravityRestoreTime = 1.5f;
     public InputActionReference grappleAction;
+    public float pullSpeed = 15f;
 
     [Header("Aim Assist")]
     public float aimAssistAngle = 10f;
@@ -21,8 +21,9 @@ public class GrapplingHookHand : MonoBehaviour
 
     [Header("Highlighting")]
     public Material highlightMaterial;
+    public Material dualHighlightMaterial;
 
-    [Header("Audio")] 
+    [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip fireSound;
     public AudioClip attachSound;
@@ -39,8 +40,8 @@ public class GrapplingHookHand : MonoBehaviour
     private Vector3 fallingVelocity;
     private float gravityTimer = 0f;
     private bool isGrappling = false;
-    private Renderer lastHitRenderer;
-    private Material originalMaterial;
+
+    private Renderer currentTargetRenderer;
 
     private void Awake()
     {
@@ -67,18 +68,22 @@ public class GrapplingHookHand : MonoBehaviour
             grappleAction.action.canceled -= ctx => StopGrapple();
             grappleAction.action.Disable();
         }
+
+        ClearHighlight(); // clean up on disable
     }
 
     private void Update()
     {
-        AimAssistHighlight();
+        UpdateHighlight();
 
         if (isGrappling)
         {
-            Vector3 toGrapple = (grapplePoint - playerBody.position).normalized;
-            characterController.Move(toGrapple * launchForce * Time.deltaTime);
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, grapplePoint);
+
+            Vector3 direction = (grapplePoint - playerBody.position).normalized;
+            Vector3 move = direction * pullSpeed * Time.deltaTime;
+            characterController.Move(move);
         }
         else if (!characterController.isGrounded)
         {
@@ -94,37 +99,49 @@ public class GrapplingHookHand : MonoBehaviour
         }
     }
 
-    private void AimAssistHighlight()
+    private void UpdateHighlight()
     {
-        ClearHighlight();
-
         RaycastHit[] hits = Physics.SphereCastAll(transform.position, aimAssistRadius, transform.forward, maxDistance, grappleLayer);
+        Renderer bestRenderer = null;
+        float closestAngle = aimAssistAngle;
 
         foreach (RaycastHit hit in hits)
         {
             Vector3 toTarget = hit.point - transform.position;
-            if (Vector3.Angle(transform.forward, toTarget) <= aimAssistAngle)
-            {
-                grapplePoint = hit.point;
+            float angle = Vector3.Angle(transform.forward, toTarget);
 
-                Renderer renderer = hit.collider.GetComponent<Renderer>();
-                if (renderer != null)
-                {
-                    lastHitRenderer = renderer;
-                    originalMaterial = renderer.sharedMaterial;
-                    renderer.material = highlightMaterial;
-                }
-                return;
+            if (angle <= closestAngle)
+            {
+                closestAngle = angle;
+                bestRenderer = hit.collider.GetComponent<Renderer>();
+                grapplePoint = hit.point;
             }
+        }
+
+        if (bestRenderer != currentTargetRenderer)
+        {
+            if (currentTargetRenderer != null)
+                HighlightManager.Instance.RemoveHighlight(currentTargetRenderer);
+
+            if (bestRenderer != null)
+                HighlightManager.Instance.AddHighlight(bestRenderer);
+
+            currentTargetRenderer = bestRenderer;
+        }
+
+        if (bestRenderer == null && currentTargetRenderer != null)
+        {
+            HighlightManager.Instance.RemoveHighlight(currentTargetRenderer);
+            currentTargetRenderer = null;
         }
     }
 
     private void ClearHighlight()
     {
-        if (lastHitRenderer != null)
+        if (currentTargetRenderer != null)
         {
-            lastHitRenderer.material = originalMaterial;
-            lastHitRenderer = null;
+            HighlightManager.Instance.RemoveHighlight(currentTargetRenderer);
+            currentTargetRenderer = null;
         }
     }
 
@@ -141,7 +158,6 @@ public class GrapplingHookHand : MonoBehaviour
         if (audioSource && attachSound) audioSource.PlayOneShot(attachSound);
         if (controller != null) controller.SendHapticImpulse(hapticAmplitude, hapticDuration);
 
-        // Reset gravity fall
         gravityTimer = 0f;
         fallingVelocity = Vector3.zero;
     }
@@ -150,6 +166,7 @@ public class GrapplingHookHand : MonoBehaviour
     {
         isGrappling = false;
         lineRenderer.positionCount = 0;
+
         if (audioSource && releaseSound) audioSource.PlayOneShot(releaseSound);
         if (controller != null) controller.SendHapticImpulse(hapticAmplitude * 0.5f, hapticDuration * 0.5f);
     }

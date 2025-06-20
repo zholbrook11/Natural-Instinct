@@ -126,6 +126,15 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleSettings"",
+                    ""type"": ""Button"",
+                    ""id"": ""826e8301-727c-4ea7-8a94-620657d41cf4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,17 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
                     ""action"": ""FireRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""45ee89d5-e370-4a4e-a729-d52bccd10da5"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/menu"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleSettings"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -184,6 +204,7 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
         m_XRActions_LGrapple = m_XRActions.FindAction("LGrapple", throwIfNotFound: true);
         m_XRActions_FireLeft = m_XRActions.FindAction("FireLeft", throwIfNotFound: true);
         m_XRActions_FireRight = m_XRActions.FindAction("FireRight", throwIfNotFound: true);
+        m_XRActions_ToggleSettings = m_XRActions.FindAction("ToggleSettings", throwIfNotFound: true);
     }
 
     ~@XRControls()
@@ -268,6 +289,7 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_XRActions_LGrapple;
     private readonly InputAction m_XRActions_FireLeft;
     private readonly InputAction m_XRActions_FireRight;
+    private readonly InputAction m_XRActions_ToggleSettings;
     /// <summary>
     /// Provides access to input actions defined in input action map "XRActions".
     /// </summary>
@@ -295,6 +317,10 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "XRActions/FireRight".
         /// </summary>
         public InputAction @FireRight => m_Wrapper.m_XRActions_FireRight;
+        /// <summary>
+        /// Provides access to the underlying input action "XRActions/ToggleSettings".
+        /// </summary>
+        public InputAction @ToggleSettings => m_Wrapper.m_XRActions_ToggleSettings;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -333,6 +359,9 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
             @FireRight.started += instance.OnFireRight;
             @FireRight.performed += instance.OnFireRight;
             @FireRight.canceled += instance.OnFireRight;
+            @ToggleSettings.started += instance.OnToggleSettings;
+            @ToggleSettings.performed += instance.OnToggleSettings;
+            @ToggleSettings.canceled += instance.OnToggleSettings;
         }
 
         /// <summary>
@@ -356,6 +385,9 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
             @FireRight.started -= instance.OnFireRight;
             @FireRight.performed -= instance.OnFireRight;
             @FireRight.canceled -= instance.OnFireRight;
+            @ToggleSettings.started -= instance.OnToggleSettings;
+            @ToggleSettings.performed -= instance.OnToggleSettings;
+            @ToggleSettings.canceled -= instance.OnToggleSettings;
         }
 
         /// <summary>
@@ -424,5 +456,12 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnFireRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleSettings" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleSettings(InputAction.CallbackContext context);
     }
 }
