@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GrapplePoint
   - SwitchToRubiks
+  - Drone
   layers:
   - Default
   - TransparentFX

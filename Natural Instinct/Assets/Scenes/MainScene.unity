@@ -3826,6 +3826,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 1767192439, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_TargetDisplay
       value: 0
@@ -3948,6 +3952,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 775813239}
+    - targetCorrespondingSourceObject: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1800075058}
     - targetCorrespondingSourceObject: {fileID: 1670256624, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 775813238}
@@ -6704,6 +6711,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 202364688, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
   m_PrefabInstance: {fileID: 775813234}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1800075058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775813236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f0814ff2eb4cb241b41f7ccf9e41a21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beam: {fileID: 775813239}
+  fireAction: {fileID: 1512332922269097342, guid: b8857a1daf286544695ea46854b2b8c3, type: 3}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  projectilePrefab: {fileID: 2393597088120192233, guid: 086f410f66b1cde4ebb63a68dfac4324, type: 3}
+  muzzleTransform: {fileID: 1800075057}
+  beamDuration: 0.05
+  range: 100
+  audioSource: {fileID: 525769378}
+  fireClip: {fileID: 8300000, guid: 7a4f688e95be07842b0b5ee7eba387db, type: 3}
+  hitClip: {fileID: 0}
+  controller: {fileID: 0}
+  hapticAmplitude: 0.5
+  hapticDuration: 0.1
 --- !u!1 &1813810724
 GameObject:
   m_ObjectHideFlags: 0

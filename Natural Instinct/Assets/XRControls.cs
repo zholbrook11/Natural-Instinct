@@ -108,6 +108,24 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""FireLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""330535ed-9a15-496d-8157-30fbf8f45092"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FireRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""37ddf02c-95af-4656-933a-a521c3136f36"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +150,28 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
                     ""action"": ""LGrapple"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85f2649c-009d-41aa-a79e-d7b126761e9e"",
+                    ""path"": ""<XRController>{LeftHand}/{PrimaryButton}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FireLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dcf524ea-531b-4122-aca8-d74504de026c"",
+                    ""path"": ""<XRController>{RightHand}/{PrimaryButton}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FireRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -142,6 +182,8 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
         m_XRActions = asset.FindActionMap("XRActions", throwIfNotFound: true);
         m_XRActions_RGrapple = m_XRActions.FindAction("RGrapple", throwIfNotFound: true);
         m_XRActions_LGrapple = m_XRActions.FindAction("LGrapple", throwIfNotFound: true);
+        m_XRActions_FireLeft = m_XRActions.FindAction("FireLeft", throwIfNotFound: true);
+        m_XRActions_FireRight = m_XRActions.FindAction("FireRight", throwIfNotFound: true);
     }
 
     ~@XRControls()
@@ -224,6 +266,8 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
     private List<IXRActionsActions> m_XRActionsActionsCallbackInterfaces = new List<IXRActionsActions>();
     private readonly InputAction m_XRActions_RGrapple;
     private readonly InputAction m_XRActions_LGrapple;
+    private readonly InputAction m_XRActions_FireLeft;
+    private readonly InputAction m_XRActions_FireRight;
     /// <summary>
     /// Provides access to input actions defined in input action map "XRActions".
     /// </summary>
@@ -243,6 +287,14 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "XRActions/LGrapple".
         /// </summary>
         public InputAction @LGrapple => m_Wrapper.m_XRActions_LGrapple;
+        /// <summary>
+        /// Provides access to the underlying input action "XRActions/FireLeft".
+        /// </summary>
+        public InputAction @FireLeft => m_Wrapper.m_XRActions_FireLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "XRActions/FireRight".
+        /// </summary>
+        public InputAction @FireRight => m_Wrapper.m_XRActions_FireRight;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -275,6 +327,12 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
             @LGrapple.started += instance.OnLGrapple;
             @LGrapple.performed += instance.OnLGrapple;
             @LGrapple.canceled += instance.OnLGrapple;
+            @FireLeft.started += instance.OnFireLeft;
+            @FireLeft.performed += instance.OnFireLeft;
+            @FireLeft.canceled += instance.OnFireLeft;
+            @FireRight.started += instance.OnFireRight;
+            @FireRight.performed += instance.OnFireRight;
+            @FireRight.canceled += instance.OnFireRight;
         }
 
         /// <summary>
@@ -292,6 +350,12 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
             @LGrapple.started -= instance.OnLGrapple;
             @LGrapple.performed -= instance.OnLGrapple;
             @LGrapple.canceled -= instance.OnLGrapple;
+            @FireLeft.started -= instance.OnFireLeft;
+            @FireLeft.performed -= instance.OnFireLeft;
+            @FireLeft.canceled -= instance.OnFireLeft;
+            @FireRight.started -= instance.OnFireRight;
+            @FireRight.performed -= instance.OnFireRight;
+            @FireRight.canceled -= instance.OnFireRight;
         }
 
         /// <summary>
@@ -346,5 +410,19 @@ public partial class @XRControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLGrapple(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "FireLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFireLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "FireRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFireRight(InputAction.CallbackContext context);
     }
 }
