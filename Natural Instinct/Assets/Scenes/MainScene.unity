@@ -4485,6 +4485,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1197376887}
     - target: {fileID: 1386788914820667014, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: maxDistance
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386788914820667014, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: lineRenderer
       value: 
       objectReference: {fileID: 775813238}
@@ -4508,6 +4512,10 @@ PrefabInstance:
       propertyPath: grappleLayer.m_Bits
       value: 64
       objectReference: {fileID: 0}
+    - target: {fileID: 1386788914820667014, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: dualHighlightMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 59e6f3696a6d19c4dabf0767c42d8b82, type: 2}
     - target: {fileID: 1717954561962503725, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_Name
       value: XR Origin (XR Rig)
@@ -4518,11 +4526,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 207.8
+      value: 42.3
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 42.4
+      value: 30.36
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4530,19 +4538,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4550,7 +4558,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -4836,7 +4844,7 @@ MonoBehaviour:
   grappleLayer:
     serializedVersion: 2
     m_Bits: 64
-  maxDistance: 30
+  maxDistance: 45
   launchForce: 15
   gravityRestoreTime: 1.5
   grappleAction: {fileID: 3318274460183742968, guid: b8857a1daf286544695ea46854b2b8c3, type: 3}
@@ -4845,11 +4853,11 @@ MonoBehaviour:
   aimAssistRadius: 2
   aimConeVisual: {fileID: 0}
   highlightMaterial: {fileID: 2100000, guid: 5273139caf9154e44b923e7d9a1328f1, type: 2}
-  dualHighlightMaterial: {fileID: 0}
-  audioSource: {fileID: 0}
-  fireSound: {fileID: 0}
+  dualHighlightMaterial: {fileID: 2100000, guid: 59e6f3696a6d19c4dabf0767c42d8b82, type: 2}
+  audioSource: {fileID: 525769378}
+  fireSound: {fileID: 8300000, guid: f8ed5bb3fda43db44b4376bb98134286, type: 3}
   attachSound: {fileID: 0}
-  releaseSound: {fileID: 0}
+  releaseSound: {fileID: 8300000, guid: 7a4f688e95be07842b0b5ee7eba387db, type: 3}
   controller: {fileID: 0}
   hapticAmplitude: 0.4
   hapticDuration: 0.1
@@ -6654,7 +6662,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!114 &1239082027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8633,7 +8641,7 @@ RectTransform:
   m_GameObject: {fileID: 1696622702}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.007, y: 0.007, z: 0.007}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 467152673}
@@ -8643,7 +8651,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -300, y: -358}
+  m_AnchoredPosition: {x: -300, y: -215.1}
   m_SizeDelta: {x: 153.19998, y: 335.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1705429192

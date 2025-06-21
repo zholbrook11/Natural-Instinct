@@ -9,13 +9,13 @@ public class CubeFaceRotator : MonoBehaviour
 
     private bool isRotating = false;
 
-    public void RotateFace(List<Transform> cubesToRotate, Vector3 axis, float angle)
+    public void RotateFace(List<Transform> cubesToRotate, Vector3 axis, float angle, System.Action callback)
     {
-        if (!isRotating)
-            StartCoroutine(RotateCoroutine(cubesToRotate, axis, angle));
+        if (!isRotating && cubesToRotate != null)
+            StartCoroutine(RotateCoroutine(cubesToRotate, axis, angle, callback));
     }
 
-    private IEnumerator RotateCoroutine(List<Transform> cubes, Vector3 axis, float angle)
+    private IEnumerator RotateCoroutine(List<Transform> cubes, Vector3 axis, float angle, System.Action callback)
     {
         if (cubes == null || cubes.Count == 0)
         {
@@ -57,6 +57,6 @@ public class CubeFaceRotator : MonoBehaviour
 
         rotationPivot.rotation = Quaternion.identity;
         isRotating = false;
+        callback?.Invoke();
     }
-
 }

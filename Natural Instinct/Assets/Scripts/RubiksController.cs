@@ -28,7 +28,7 @@ public class RubiksController : MonoBehaviour
         {
             // ✅ Transform the direction into world space relative to cubeRoot
             Vector3 worldAxis = cubeRoot.TransformDirection(faceDirection);
-            rotator.RotateFace(cubes, worldAxis, angle);
+            rotator.RotateFace(cubes, worldAxis, angle, null);
         }
         else
         {
