@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0bfc56b49f64f4a2b8f86450f14fa55f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - dronePrefab: {instanceID: 0}
+  - tesseractPrefab: {instanceID: 0}
+  - tesseractSpawnPoint: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

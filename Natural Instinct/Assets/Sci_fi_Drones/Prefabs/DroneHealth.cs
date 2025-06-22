@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DroneHealth : MonoBehaviour
 {
     [SerializeField] private int maxHP = 3;
     [SerializeField] private GameObject explosionPrefab;
+
+    public UnityAction<DroneHealth> OnDroneDestroyed; // 🔸 Added this line
 
     int hp;
 
@@ -17,6 +20,8 @@ public class DroneHealth : MonoBehaviour
 
     void Die()
     {
+        OnDroneDestroyed?.Invoke(this); // 🔸 Notify listeners BEFORE destruction
+
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
