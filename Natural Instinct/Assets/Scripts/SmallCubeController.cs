@@ -1,6 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.XR.Interaction.Toolkit;
 
 
 public class SmallCubeController : MonoBehaviour
@@ -59,9 +61,62 @@ public class SmallCubeController : MonoBehaviour
         );
     }
 
+    public List<Transform> GetCubesOnFace(Vector3 faceDirection, float threshold = 0.5f)
+    {
+        List<Transform> result = new List<Transform>();
+
+        Vector3 center = cubeRoot.position;
+        Vector3 worldFaceDir = cubeRoot.TransformDirection(faceDirection.normalized);
+
+        foreach (Transform cube in cubeRoot)
+        {
+            if (!cube.name.StartsWith("Piece")) continue;
+
+            Vector3 local = cube.position - center;
+            float dot = Vector3.Dot(local.normalized, worldFaceDir);
+
+            Debug.Log($"Checking {cube.name}: dot = {dot}");
+
+            if (Mathf.Abs(dot) > threshold && dot > 0)
+            {
+                Debug.Log($"✔ Added {cube.name} to face");
+                result.Add(cube);
+            }
+        }
+
+        Debug.Log($"[FaceGrab] Found {result.Count} cubes on face: {faceDirection}");
+        return result;
+    }
+
+    public void RotateFace(Vector3 faceDirection, float angle)
+    {
+        if (isLocked) return;
+
+        isLocked = true;
+        grabInteractable.enabled = false;
+
+        var faceCubes = GetCubesOnFace(faceDirection, 0.1f); // Use tighter threshold for 2x2
+        Vector3 worldAxis = cubeRoot.TransformDirection(faceDirection.normalized);
+
+        bigCubeRotator.RotateFace(faceCubes, worldAxis, angle, Unlock);
+    }
+
+
+
+
     void Unlock()
     {
         isLocked = false;
         grabInteractable.enabled = true;
     }
+
+    void Awake()
+    {
+        if (grabInteractable != null)
+        {
+            grabInteractable.selectEntered.AddListener(args => OnPickedUp());
+            grabInteractable.selectExited.AddListener(args => OnReleased());
+        }
+    }
+
 }
