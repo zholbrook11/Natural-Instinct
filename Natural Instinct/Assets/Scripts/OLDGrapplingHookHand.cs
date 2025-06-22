@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -13,6 +14,13 @@ public class GrapplingHookHand : MonoBehaviour
     public float gravityRestoreTime = 1.5f;
     public InputActionReference grappleAction;
     public float pullSpeed = 15f;
+
+    [Header("Tether Mode")]
+    public bool useTetherGrappleMode = true;
+    public float tetherStopDistance = 2f;
+    public float tetherPullAcceleration = 30f;
+    public float tetherMaxPullSpeed = 20f;
+    public float tetherOrbitSpeed = 3f;
 
     [Header("Aim Assist")]
     public float aimAssistAngle = 10f;
@@ -33,6 +41,9 @@ public class GrapplingHookHand : MonoBehaviour
     public XRBaseController controller;
     public float hapticAmplitude = 0.4f;
     public float hapticDuration = 0.1f;
+
+    [Header("Settings")]
+    public bool enableAutoHighlight = true;
 
     private Vector3 grapplePoint;
     private LineRenderer lineRenderer;
@@ -69,14 +80,17 @@ public class GrapplingHookHand : MonoBehaviour
             grappleAction.action.Disable();
         }
 
-        ClearHighlight(); // clean up on disable
+        ClearHighlight();
     }
 
     private void Update()
     {
         UpdateHighlight();
 
-        if (isGrappling)
+        if (useTetherGrappleMode && isGrappling)
+            return;
+
+        if (isGrappling && !useTetherGrappleMode)
         {
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, grapplePoint);
@@ -85,14 +99,14 @@ public class GrapplingHookHand : MonoBehaviour
             Vector3 move = direction * pullSpeed * Time.deltaTime;
             characterController.Move(move);
         }
-        else if (!characterController.isGrounded)
+        else if (!isGrappling && !characterController.isGrounded)
         {
             gravityTimer += Time.deltaTime;
             float gravityMultiplier = Mathf.Clamp01(gravityTimer / gravityRestoreTime);
             fallingVelocity += Physics.gravity * gravityMultiplier * Time.deltaTime;
             characterController.Move(fallingVelocity * Time.deltaTime);
         }
-        else
+        else if (characterController.isGrounded)
         {
             gravityTimer = 0f;
             fallingVelocity = Vector3.zero;
@@ -101,6 +115,8 @@ public class GrapplingHookHand : MonoBehaviour
 
     private void UpdateHighlight()
     {
+        if (!enableAutoHighlight || isGrappling) return;
+
         RaycastHit[] hits = Physics.SphereCastAll(transform.position, aimAssistRadius, transform.forward, maxDistance, grappleLayer);
         Renderer bestRenderer = null;
         float closestAngle = aimAssistAngle;
@@ -160,6 +176,9 @@ public class GrapplingHookHand : MonoBehaviour
 
         gravityTimer = 0f;
         fallingVelocity = Vector3.zero;
+
+        if (useTetherGrappleMode)
+            StartCoroutine(TetherGrappleRoutine());
     }
 
     public void StopGrapple()
@@ -169,5 +188,65 @@ public class GrapplingHookHand : MonoBehaviour
 
         if (audioSource && releaseSound) audioSource.PlayOneShot(releaseSound);
         if (controller != null) controller.SendHapticImpulse(hapticAmplitude * 0.5f, hapticDuration * 0.5f);
+
+        if (useTetherGrappleMode)
+        {
+            Vector3 releaseDir = (playerBody.transform.position - grapplePoint).normalized;
+            float speed = characterController.velocity.magnitude;
+            StartCoroutine(ApplyReleaseMomentum(releaseDir, speed));
+        }
+    }
+
+    private IEnumerator TetherGrappleRoutine()
+    {
+        while (isGrappling)
+        {
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, grapplePoint);
+
+            Vector3 toGrapple = grapplePoint - playerBody.position;
+            float distance = toGrapple.magnitude;
+
+            // Pull to tether distance
+            if (distance > tetherStopDistance)
+            {
+                float pullSpeed = Mathf.Min(tetherMaxPullSpeed, (distance - tetherStopDistance) * tetherPullAcceleration);
+                Vector3 pullVelocity = toGrapple.normalized * pullSpeed;
+                characterController.Move(pullVelocity * Time.deltaTime);
+            }
+
+            // Dynamic control scaling as you near the tether
+            float leashPercent = Mathf.InverseLerp(0.5f * tetherStopDistance, tetherStopDistance, distance);
+            Vector3 aimDirection = transform.forward.normalized;
+            Vector3 aimMovement = aimDirection * tetherOrbitSpeed * leashPercent;
+            characterController.Move(aimMovement * Time.deltaTime);
+
+            // Smooth tether radius correction
+            Vector3 fromAnchor = playerBody.position - grapplePoint;
+            if (fromAnchor.magnitude > tetherStopDistance)
+            {
+                Vector3 clampedPosition = grapplePoint + fromAnchor.normalized * tetherStopDistance;
+                Vector3 correction = clampedPosition - playerBody.position;
+                characterController.Move(correction * 0.25f); // Smooth correction
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator ApplyReleaseMomentum(Vector3 direction, float speed)
+    {
+        float gravity = 9.81f;
+
+        while (!characterController.isGrounded)
+        {
+            Vector3 motion = direction * speed;
+            motion.y -= gravity * Time.deltaTime;
+
+            characterController.Move(motion * Time.deltaTime);
+            speed = Mathf.Lerp(speed, 0f, Time.deltaTime * 0.5f);
+
+            yield return null;
+        }
     }
 }
