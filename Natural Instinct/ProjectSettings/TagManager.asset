@@ -13,6 +13,7 @@ TagManager:
   - AnimalSound
   - EMP
   - Tesseract
+  - INTOTHELAB_erinth
   layers:
   - Default
   - TransparentFX

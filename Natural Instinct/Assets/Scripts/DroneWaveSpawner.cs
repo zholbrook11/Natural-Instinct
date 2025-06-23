@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DroneWaveSpawner : MonoBehaviour
@@ -15,6 +15,7 @@ public class DroneWaveSpawner : MonoBehaviour
     void Awake()
     {
         spawnPoints = GetComponentsInChildren<Transform>();
+        spawnPoints = System.Array.FindAll(spawnPoints, t => t != transform);
     }
 
     public void TestStartWave()
@@ -36,12 +37,18 @@ public class DroneWaveSpawner : MonoBehaviour
         }
     }
 
+
+       
     private void HandleDroneDestroyed(DroneHealth drone)
     {
         dronesAlive--;
+        Debug.Log("Drone destroyed. Drones remaining: " + dronesAlive); // 🔍
+
         if (dronesAlive <= 0)
         {
+            Debug.Log("All drones down. Spawning tesseract."); // 🔍
             Instantiate(tesseractPrefab, tesseractSpawnPoint.position, tesseractSpawnPoint.rotation);
         }
     }
+
 }

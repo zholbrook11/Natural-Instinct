@@ -389,6 +389,11 @@ MonoBehaviour:
   gravityRestoreTime: 1.5
   grappleAction: {fileID: 0}
   pullSpeed: 15
+  useTetherGrappleMode: 1
+  tetherStopDistance: 2
+  tetherPullAcceleration: 30
+  tetherMaxPullSpeed: 20
+  tetherOrbitSpeed: 3
   aimAssistAngle: 10
   aimAssistRadius: 2
   aimConeVisual: {fileID: 0}
@@ -401,6 +406,7 @@ MonoBehaviour:
   controller: {fileID: 0}
   hapticAmplitude: 0.4
   hapticDuration: 0.1
+  enableAutoHighlight: 1
 --- !u!120 &2546906730145715335
 LineRenderer:
   serializedVersion: 2
