@@ -21,6 +21,11 @@ public class SwitchScene : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
+
+        if (other.tag ==  "Finishedmaze")
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 
 

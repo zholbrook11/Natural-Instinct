@@ -8,6 +8,7 @@ TagManager:
   - SwitchToRubiks
   - Drone
   - InRubiks
+  - Finishedmaze
   layers:
   - Default
   - TransparentFX

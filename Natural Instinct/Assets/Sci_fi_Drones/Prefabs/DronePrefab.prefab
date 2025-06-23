@@ -108,6 +108,8 @@ MonoBehaviour:
   turnSpeed: 2
   boundaryRadius: 10
   obstacleAvoidanceDistance: 1
+  projectileTag: EMP
+  dropPrefab: {fileID: 4268199621121619467, guid: 0774c51c203b5ba449889e6eec4385ca, type: 3}
 --- !u!114 &5464120169560398361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +166,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

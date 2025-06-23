@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -4368905003297079967}
   m_Layer: 0
   m_Name: lazerProjectile
-  m_TagString: Untagged
+  m_TagString: EMP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,3 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e55c634fd9583d3499845e3f4b19e318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 100
+  maxDistance: 100
+  hitClip: {fileID: 0}
