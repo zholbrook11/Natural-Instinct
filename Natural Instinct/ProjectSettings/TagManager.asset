@@ -9,6 +9,10 @@ TagManager:
   - Drone
   - InRubiks
   - Finishedmaze
+  - EnvironmentSound
+  - AnimalSound
+  - EMP
+  - Tesseract
   layers:
   - Default
   - TransparentFX

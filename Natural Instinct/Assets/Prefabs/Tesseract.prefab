@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 8474066874392266554}
   - component: {fileID: 4031384084671094228}
   - component: {fileID: 373722120226675265}
+  - component: {fileID: -3905001250202739580}
+  - component: {fileID: -4842354511847373600}
   m_Layer: 0
   m_Name: Tesseract
-  m_TagString: Untagged
+  m_TagString: Tesseract
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -205,6 +207,35 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-3905001250202739580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4268199621121619467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca9032ad62a90864ea343d6e6c88287d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  maxShakeStrength: 0.5
+  maxDistance: 10
+  controller: {fileID: 0}
+--- !u!114 &-4842354511847373600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4268199621121619467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5f1db62ac557064ea1702ad7685e45a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  caveExit: {fileID: 0}
 --- !u!1 &7626212985398212061
 GameObject:
   m_ObjectHideFlags: 0
