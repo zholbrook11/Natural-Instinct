@@ -14,11 +14,40 @@ public class SettingsManager : MonoBehaviour
 
     [Header("VR Settings UI")]
     public GameObject settingsCanvas;
+  
     public Transform vrCamera;
     public Vector3 offsetFromHead = new Vector3(0f, -0.3f, 1.5f);
     public InputActionReference toggleMenuButton;
 
     private bool settingsVisible = false;
+
+    [Header("Key References")]
+    public Canvas keypadCanvas;
+    public Transform player; // Reference to XR Rig or main camera
+
+    [Header("Key Settings")]
+    public float activationDistance = 2.5f;
+
+    private CanvasGroup canvasGroup;
+    private bool isPlayerNear = false;
+
+    void Update()
+    {
+        if (player == null) return;
+
+        float distance = Vector3.Distance(player.position, keypadCanvas.transform.position);
+
+        if (distance <= activationDistance && !isPlayerNear)
+        {
+            isPlayerNear = true;
+            SetCanvasState(true);
+        }
+        else if (distance > activationDistance && isPlayerNear)
+        {
+            isPlayerNear = false;
+            SetCanvasState(false);
+        }
+    }
 
     private void Awake()
     {
@@ -41,10 +70,18 @@ public class SettingsManager : MonoBehaviour
         toggleMenuButton.action.performed -= ctx => ToggleSettings();
     }
 
+    void SetCanvasState(bool state)
+    {
+        canvasGroup.alpha = state ? 1 : 0;
+        canvasGroup.interactable = state;
+        canvasGroup.blocksRaycasts = state;
+    }
+
     private void ToggleSettings()
     {
         settingsVisible = !settingsVisible;
         settingsCanvas.SetActive(settingsVisible);
+        //keypadCanvas.SetActive(settingsVisible);
 
         if (settingsVisible && vrCamera != null)
         {
@@ -95,7 +132,22 @@ public class SettingsManager : MonoBehaviour
         environmentSources.AddRange(FindAudioSourcesWithTag("EnvironmentSound", environmentSources));
         playerSources.AddRange(FindAudioSourcesWithTag("PlayerSound", playerSources));
         animalSources.AddRange(FindAudioSourcesWithTag("AnimalSound", animalSources));
+
+        if (keypadCanvas == null)
+        {
+            Debug.LogError("Settings Canvas not assigned.");
+            return;
+        }
+
+        canvasGroup = keypadCanvas.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = keypadCanvas.gameObject.AddComponent<CanvasGroup>();
+        }
+
+        SetCanvasState(false);
     }
+
 
     private IEnumerable<AudioSource> FindAudioSourcesWithTag(string tag, List<AudioSource> currentList)
     {

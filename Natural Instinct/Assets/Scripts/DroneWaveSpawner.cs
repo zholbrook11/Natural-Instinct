@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,34 +8,24 @@ public class DroneWaveSpawner : MonoBehaviour
     [SerializeField] private GameObject tesseractPrefab;
     [SerializeField] private Transform tesseractSpawnPoint;
 
-    [Header("Spawn Settings")]
-    [SerializeField] private int initialDrones = 10;
-    [SerializeField] private int waveDrones = 5;
-    [SerializeField] private float waveInterval = 5f;
-
     private Transform[] spawnPoints;
-    private bool tesseractGrabbed = false;
-
-    private Coroutine waveSpawnerCoroutine;
+    private int dronesAlive;
+    private int dronesPerWave = 5;
 
     void Awake()
     {
-        // Get all spawn point children, skipping index 0 (self)
-        List<Transform> points = new List<Transform>(GetComponentsInChildren<Transform>());
-        points.RemoveAt(0); // remove the parent
-        spawnPoints = points.ToArray();
+        spawnPoints = GetComponentsInChildren<Transform>();
     }
 
     public void TestStartWave()
     {
-        SpawnDrones(initialDrones);
-    }
+        if (dronesAlive > 0) return;
 
-    private void SpawnDrones(int count)
-    {
-        for (int i = 0; i < count; i++)
+        dronesAlive = dronesPerWave;
+
+        for (int i = 1; i <= dronesPerWave; i++)  // skip index 0 (self)
         {
-            Transform p = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            Transform p = spawnPoints[i % spawnPoints.Length];
             GameObject d = Instantiate(dronePrefab, p.position, p.rotation);
 
             DroneHealth droneHealth = d.GetComponent<DroneHealth>();
@@ -49,32 +38,10 @@ public class DroneWaveSpawner : MonoBehaviour
 
     private void HandleDroneDestroyed(DroneHealth drone)
     {
-        drone.OnDroneDestroyed -= HandleDroneDestroyed;
-
-        // 25% chance to drop a tesseract
-        if (!tesseractGrabbed && Random.value <= 0.25f)
+        dronesAlive--;
+        if (dronesAlive <= 0)
         {
             Instantiate(tesseractPrefab, tesseractSpawnPoint.position, tesseractSpawnPoint.rotation);
         }
     }
-
-    public void OnTesseractGrabbed()
-    {
-        if (tesseractGrabbed) return;
-
-        tesseractGrabbed = true;
-
-        // Start infinite drone wave spawner
-        waveSpawnerCoroutine = StartCoroutine(SpawnDroneWaves());
-    }
-
-    private IEnumerator SpawnDroneWaves()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(waveInterval);
-            SpawnDrones(waveDrones);
-        }
-    }
 }
-

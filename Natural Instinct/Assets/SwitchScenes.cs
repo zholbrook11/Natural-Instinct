@@ -26,10 +26,6 @@ public class SwitchScene : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
-         if (other.tag ==  "INTOTHELABerinth")
-        {
-            SceneManager.LoadScene(2);
-        }
     }
 
 
