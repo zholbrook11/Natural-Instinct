@@ -124,8 +124,8 @@ MonoBehaviour:
   maxHP: 3
   explosionPrefab: {fileID: 2523610402328710214, guid: 7e258ec1efe8f462595a700b6e64260f, type: 3}
   dropPrefab: {fileID: 4268199621121619467, guid: 0774c51c203b5ba449889e6eec4385ca, type: 3}
-  hitSound: {fileID: 8300000, guid: 23b62163e901c684aaa564f5e99009a0, type: 3}
-  explosionSound: {fileID: 8300000, guid: 7a4f688e95be07842b0b5ee7eba387db, type: 3}
+  hitSound: {fileID: 8300000, guid: 7a4f688e95be07842b0b5ee7eba387db, type: 3}
+  explosionSound: {fileID: 8300000, guid: 23b62163e901c684aaa564f5e99009a0, type: 3}
   audioSource: {fileID: -8097634952259295114}
   projectileTag: EMP
 --- !u!54 &4819534296238741924
